@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>BEEE | LearnGeeks</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#09090f;--card:#141420;--accent:#00f5a0;--accent2:#00d4ff;--accent3:#ff6b35;--text:#e8e8f0;--muted:#5a5a7a;--border:rgba(0,245,160,0.12);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,245,160,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,160,0.025) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;}
+.o1{width:600px;height:600px;background:rgba(0,245,160,0.05);top:-200px;left:-200px;animation:d1 14s ease-in-out infinite;}
+.o2{width:400px;height:400px;background:rgba(0,212,255,0.04);bottom:100px;right:-100px;animation:d2 17s ease-in-out infinite;}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(50px,40px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,-30px)}}
+.wm{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;align-items:center;gap:8px;background:rgba(0,245,160,0.07);border:1px solid rgba(0,245,160,0.22);padding:9px 16px;border-radius:50px;backdrop-filter:blur(12px);}
+.wm-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pd 2s ease-in-out infinite;}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:0.4}}
+.wm span{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:1.5px;}
+.hero{position:relative;z-index:1;padding:56px 36px 44px;text-align:center;border-bottom:1px solid var(--border);}
+.btag{display:inline-flex;align-items:center;gap:9px;background:rgba(0,245,160,0.07);border:1px solid rgba(0,245,160,0.25);padding:7px 18px;border-radius:50px;margin-bottom:24px;}
+.btag-icon{width:18px;height:18px;background:var(--accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;}
+.btag span{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;}
+.eyebrow{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+.htitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,9vw,100px);line-height:.95;letter-spacing:2px;margin-bottom:14px;}
+.htitle .l1{color:var(--text);display:block;}
+.htitle .l2{display:block;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hsub{font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 28px;line-height:1.7;}
+.hbadges{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
+.badge{padding:5px 13px;border-radius:6px;font-size:11px;font-family:'Space Mono',monospace;letter-spacing:1px;}
+.bg{background:rgba(0,245,160,0.09);color:var(--accent);border:1px solid rgba(0,245,160,0.18);}
+.bb{background:rgba(0,212,255,0.09);color:var(--accent2);border:1px solid rgba(0,212,255,0.18);}
+.bo{background:rgba(255,107,53,0.09);color:var(--accent3);border:1px solid rgba(255,107,53,0.18);}
+.stats{position:relative;z-index:1;background:rgba(255,255,255,0.02);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:24px 36px;display:flex;justify-content:center;gap:52px;flex-wrap:wrap;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:38px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.stat-lbl{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-top:3px;}
+.section{position:relative;z-index:1;padding:52px 36px;max-width:1200px;margin:0 auto;}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:36px;}
+.sl{flex:1;height:1px;background:var(--border);}
+.slabel{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;white-space:nowrap;}
+.part-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;padding:6px 16px;border-radius:6px;display:inline-block;margin-bottom:20px;}
+.part-a{background:rgba(0,245,160,0.1);color:var(--accent);border:1px solid rgba(0,245,160,0.2);}
+.part-b{background:rgba(0,212,255,0.1);color:var(--accent2);border:1px solid rgba(0,212,255,0.2);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;margin-bottom:32px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:all .3s ease;}
+.card:hover{transform:translateY(-4px);border-color:rgba(0,245,160,0.28);box-shadow:0 16px 50px rgba(0,245,160,0.07);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s;}
+.card:hover::before{opacity:1;}
+.ca::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.cb::before{background:linear-gradient(90deg,var(--accent2),#a78bfa);}
+.cc::before{background:linear-gradient(90deg,var(--accent3),#f59e0b);}
+.cd::before{background:linear-gradient(90deg,#a78bfa,var(--accent));}
+.bg-num{position:absolute;top:-10px;right:14px;font-family:'Bebas Neue',sans-serif;font-size:90px;color:rgba(255,255,255,0.025);line-height:1;pointer-events:none;}
+.ch{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;}
+.cnum{font-family:'Space Mono',monospace;font-size:9px;color:#000;font-weight:700;padding:3px 7px;border-radius:5px;letter-spacing:1px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.na{background:var(--accent);}
+.nb{background:var(--accent2);}
+.nc{background:var(--accent3);}
+.nd{background:#a78bfa;}
+.ne{background:#f59e0b;}
+.ctitle{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;}
+.ta{color:var(--accent);}
+.tb{color:var(--accent2);}
+.tc{color:var(--accent3);}
+.td{color:#a78bfa;}
+.te{color:#f59e0b;}
+.topics{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topics li{display:flex;align-items:center;gap:9px;font-size:13px;color:#a0a0c0;padding:6px 9px;border-radius:7px;transition:all .2s;}
+.topics li:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.da{background:var(--accent);}
+.db{background:var(--accent2);}
+.dc{background:var(--accent3);}
+.dd{background:#a78bfa;}
+.de{background:#f59e0b;}
+.footer{position:relative;z-index:1;padding:36px;text-align:center;border-top:1px solid var(--border);}
+.fbrand{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.fsub{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;}
+.flinks{display:flex;justify-content:center;gap:22px;margin-top:18px;flex-wrap:wrap;}
+.flink{font-size:11px;color:var(--muted);text-decoration:none;font-family:'Space Mono',monospace;letter-spacing:1px;transition:color .2s;}
+.flink:hover{color:var(--accent);}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:rgba(0,245,160,0.18);border-radius:3px;}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<div class="wm"><div class="wm-dot"></div><span>© LearnGeeks Premium</span></div>
+<section class="hero">
+  <div class="btag"><div class="btag-icon">LG</div><span>LearnGeeks Premium</span></div>
+  <p class="eyebrow">R23 B.Tech · I Year · All Branches</p>
+  <h1 class="htitle"><span class="l1">Basic Electrical &</span><span class="l2">Electronics Engg</span></h1>
+  <p class="hsub">Complete BEEE syllabus · Part A + Part B · Exam-ready important topics</p>
+  <div class="hbadges"><span class="badge bg">R23 Regulation</span><span class="badge bb">Part A: Electrical</span><span class="badge bo">Part B: Electronics</span></div>
+</section>
+<div class="stats">
+  <div class="stat"><div class="stat-num">6</div><div class="stat-lbl">Units</div></div>
+  <div class="stat"><div class="stat-num">25+</div><div class="stat-lbl">Topics</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Credits</div></div>
+  <div class="stat"><div class="stat-num">2</div><div class="stat-lbl">Parts</div></div>
+</div>
+<section class="section">
+  <div class="sh"><div class="sl"></div><span class="slabel">Part A — Basic Electrical Engineering</span><div class="sl"></div></div>
+  <div class="grid">
+    <div class="card ca"><div class="bg-num">I</div><div class="ch"><span class="cnum na">UNIT 01</span><h2 class="ctitle ta">DC & AC Circuits</h2></div><ul class="topics"><li><span class="dot da"></span>Ohm's Law, KCL & KVL</li><li><span class="dot da"></span>Series, Parallel, Series-Parallel Circuits</li><li><span class="dot da"></span>Superposition Theorem</li><li><span class="dot da"></span>AC Fundamentals — RMS, Average, Form Factor</li><li><span class="dot da"></span>Phasor Diagrams (R, L, C)</li><li><span class="dot da"></span>Impedance, Power Factor, Active/Reactive Power</li></ul></div>
+    <div class="card cb"><div class="bg-num">II</div><div class="ch"><span class="cnum nb">UNIT 02</span><h2 class="ctitle tb">Machines & Instruments</h2></div><ul class="topics"><li><span class="dot db"></span>DC Motor & DC Generator</li><li><span class="dot db"></span>Single Phase Transformer</li><li><span class="dot db"></span>3-Phase Induction Motor</li><li><span class="dot db"></span>Alternator</li><li><span class="dot db"></span>PMMC & Moving Iron Instruments</li><li><span class="dot db"></span>Wheatstone Bridge</li></ul></div>
+    <div class="card cc"><div class="bg-num">III</div><div class="ch"><span class="cnum nc">UNIT 03</span><h2 class="ctitle tc">Energy & Safety</h2></div><ul class="topics"><li><span class="dot dc"></span>Hydel, Nuclear, Solar & Wind Power</li><li><span class="dot dc"></span>Electricity Bill Calculation</li><li><span class="dot dc"></span>Two-Part Tariff</li><li><span class="dot dc"></span>Fuse & MCB — Working Principle</li><li><span class="dot dc"></span>Earthing Types</li><li><span class="dot dc"></span>Electric Shock Safety Measures</li></ul></div>
+  </div>
+  <div class="sh"><div class="sl"></div><span class="slabel">Part B — Basic Electronics Engineering</span><div class="sl"></div></div>
+  <div class="grid">
+    <div class="card cd"><div class="bg-num">I</div><div class="ch"><span class="cnum nd">UNIT 04</span><h2 class="ctitle td">Semiconductor Devices</h2></div><ul class="topics"><li><span class="dot dd"></span>PN Junction Diode Characteristics</li><li><span class="dot dd"></span>Zener Effect & Zener Diode</li><li><span class="dot dd"></span>BJT — CB, CE, CC Configurations</li><li><span class="dot dd"></span>CE Amplifier (Small Signal)</li></ul></div>
+    <div class="card ca"><div class="bg-num">II</div><div class="ch"><span class="cnum na">UNIT 05</span><h2 class="ctitle ta">Circuits & Instrumentation</h2></div><ul class="topics"><li><span class="dot da"></span>Full Wave Bridge Rectifier</li><li><span class="dot da"></span>Zener Voltage Regulator</li><li><span class="dot da"></span>RC Coupled Amplifier & Frequency Response</li><li><span class="dot da"></span>Electronic Instrumentation Block Diagram</li></ul></div>
+    <div class="card cb"><div class="bg-num">III</div><div class="ch"><span class="cnum nb">UNIT 06</span><h2 class="ctitle tb">Digital Electronics</h2></div><ul class="topics"><li><span class="dot db"></span>Number Systems & Codes (BCD, Gray, Hamming)</li><li><span class="dot db"></span>Logic Gates & Universal Gates</li><li><span class="dot db"></span>Boolean Algebra & Truth Tables</li><li><span class="dot db"></span>Half Adder & Full Adder</li><li><span class="dot db"></span>Flip Flops, Registers & Counters</li></ul></div>
+  </div>
+</section>
+<footer class="footer"><div class="fbrand">LearnGeeks</div><div class="fsub">Your Gateway to Smart Learning</div><div class="flinks"><a class="flink" href="#">YouTube</a><a class="flink" href="#">Instagram</a><a class="flink" href="https://t.me/learngeekspremium">Telegram Premium</a></div></footer>
+</body></html>

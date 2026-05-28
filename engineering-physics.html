@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Engineering Physics | LearnGeeks</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#08080e;--card:#121220;--accent:#00d4ff;--accent2:#a78bfa;--accent3:#f59e0b;--text:#e8e8f0;--muted:#5a5a7a;--border:rgba(0,212,255,0.12);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+.orb{position:fixed;border-radius:50%;filter:blur(120px);pointer-events:none;z-index:0;}
+.o1{width:500px;height:500px;background:rgba(0,212,255,0.06);top:-150px;right:-100px;animation:d1 13s ease-in-out infinite;}
+.o2{width:400px;height:400px;background:rgba(167,139,250,0.05);bottom:150px;left:-100px;animation:d2 16s ease-in-out infinite;}
+@keyframes d1{0%,100%{transform:translate(0,0)}50%{transform:translate(-40px,30px)}}
+@keyframes d2{0%,100%{transform:translate(0,0)}50%{transform:translate(30px,-40px)}}
+.wm{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;align-items:center;gap:8px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.22);padding:9px 16px;border-radius:50px;backdrop-filter:blur(12px);}
+.wm-dot{width:7px;height:7px;background:var(--accent);border-radius:50%;animation:pd 2s ease-in-out infinite;}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:0.4}}
+.wm span{font-family:'Space Mono',monospace;font-size:10px;color:var(--accent);letter-spacing:1.5px;}
+.hero{position:relative;z-index:1;padding:56px 36px 44px;text-align:center;border-bottom:1px solid var(--border);}
+.btag{display:inline-flex;align-items:center;gap:9px;background:rgba(0,212,255,0.07);border:1px solid rgba(0,212,255,0.25);padding:7px 18px;border-radius:50px;margin-bottom:24px;}
+.btag-icon{width:18px;height:18px;background:var(--accent);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#000;}
+.btag span{font-family:'Space Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:2px;}
+.eyebrow{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+.htitle{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,9vw,100px);line-height:.95;letter-spacing:2px;margin-bottom:14px;}
+.htitle .l1{color:var(--text);display:block;}
+.htitle .l2{display:block;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hsub{font-size:14px;color:var(--muted);max-width:480px;margin:0 auto 28px;line-height:1.7;}
+.hbadges{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;}
+.badge{padding:5px 13px;border-radius:6px;font-size:11px;font-family:'Space Mono',monospace;letter-spacing:1px;}
+.bg{background:rgba(0,212,255,0.09);color:var(--accent);border:1px solid rgba(0,212,255,0.18);}
+.bb{background:rgba(167,139,250,0.09);color:var(--accent2);border:1px solid rgba(167,139,250,0.18);}
+.bo{background:rgba(245,158,11,0.09);color:var(--accent3);border:1px solid rgba(245,158,11,0.18);}
+.stats{position:relative;z-index:1;background:rgba(255,255,255,0.02);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:24px 36px;display:flex;justify-content:center;gap:52px;flex-wrap:wrap;}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:38px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.stat-lbl{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;font-family:'Space Mono',monospace;margin-top:3px;}
+.section{position:relative;z-index:1;padding:52px 36px;max-width:1200px;margin:0 auto;}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:36px;}
+.sl{flex:1;height:1px;background:var(--border);}
+.slabel{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:3px;text-transform:uppercase;white-space:nowrap;}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;position:relative;overflow:hidden;transition:all .3s ease;}
+.card:hover{transform:translateY(-4px);box-shadow:0 16px 50px rgba(0,212,255,0.07);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0;transition:opacity .3s;}
+.card:hover::before{opacity:1;}
+.c1::before{background:linear-gradient(90deg,var(--accent),var(--accent2));}
+.c2::before{background:linear-gradient(90deg,var(--accent2),#f59e0b);}
+.c3::before{background:linear-gradient(90deg,#f59e0b,var(--accent));}
+.c4::before{background:linear-gradient(90deg,var(--accent),#00f5a0);}
+.c5::before{background:linear-gradient(90deg,#00f5a0,var(--accent2));}
+.bg-num{position:absolute;top:-10px;right:14px;font-family:'Bebas Neue',sans-serif;font-size:90px;color:rgba(255,255,255,0.025);line-height:1;pointer-events:none;}
+.ch{display:flex;align-items:flex-start;gap:12px;margin-bottom:18px;}
+.cnum{font-family:'Space Mono',monospace;font-size:9px;color:#000;font-weight:700;padding:3px 7px;border-radius:5px;letter-spacing:1px;white-space:nowrap;flex-shrink:0;margin-top:4px;}
+.n1{background:var(--accent);}
+.n2{background:var(--accent2);}
+.n3{background:var(--accent3);}
+.n4{background:#00f5a0;}
+.n5{background:#ff6b35;}
+.ctitle{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;line-height:1.1;}
+.t1{color:var(--accent);}
+.t2{color:var(--accent2);}
+.t3{color:var(--accent3);}
+.t4{color:#00f5a0;}
+.t5{color:#ff6b35;}
+.topics{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.topics li{display:flex;align-items:center;gap:9px;font-size:13px;color:#a0a0c0;padding:6px 9px;border-radius:7px;transition:all .2s;}
+.topics li:hover{background:rgba(255,255,255,0.04);color:var(--text);}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.d1{background:var(--accent);}
+.d2{background:var(--accent2);}
+.d3{background:var(--accent3);}
+.d4{background:#00f5a0;}
+.d5{background:#ff6b35;}
+.footer{position:relative;z-index:1;padding:36px;text-align:center;border-top:1px solid var(--border);}
+.fbrand{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:3px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;}
+.fsub{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;}
+.flinks{display:flex;justify-content:center;gap:22px;margin-top:18px;flex-wrap:wrap;}
+.flink{font-size:11px;color:var(--muted);text-decoration:none;font-family:'Space Mono',monospace;letter-spacing:1px;transition:color .2s;}
+.flink:hover{color:var(--accent);}
+::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:var(--bg);}::-webkit-scrollbar-thumb{background:rgba(0,212,255,0.18);border-radius:3px;}
+</style>
+</head>
+<body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<div class="wm"><div class="wm-dot"></div><span>© LearnGeeks Premium</span></div>
+<section class="hero">
+  <div class="btag"><div class="btag-icon">LG</div><span>LearnGeeks Premium</span></div>
+  <p class="eyebrow">R23 B.Tech · I Year · All Branches</p>
+  <h1 class="htitle"><span class="l1">Engineering</span><span class="l2">Physics</span></h1>
+  <p class="hsub">Wave Optics · Crystallography · Quantum Mechanics · Semiconductors</p>
+  <div class="hbadges"><span class="badge bg">R23 Regulation</span><span class="badge bb">5 Units</span><span class="badge bo">3 Credits</span></div>
+</section>
+<div class="stats">
+  <div class="stat"><div class="stat-num">5</div><div class="stat-lbl">Units</div></div>
+  <div class="stat"><div class="stat-num">28+</div><div class="stat-lbl">Topics</div></div>
+  <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Credits</div></div>
+  <div class="stat"><div class="stat-num">100%</div><div class="stat-lbl">Covered</div></div>
+</div>
+<section class="section">
+  <div class="sh"><div class="sl"></div><span class="slabel">Unit-wise Important Topics</span><div class="sl"></div></div>
+  <div class="grid">
+    <div class="card c1"><div class="bg-num">I</div><div class="ch"><span class="cnum n1">UNIT 01</span><h2 class="ctitle t1">Wave Optics</h2></div><ul class="topics"><li><span class="dot d1"></span>Interference — Newton's Rings</li><li><span class="dot d1"></span>Thin Film Interference & Applications</li><li><span class="dot d1"></span>Fraunhofer Diffraction — Single & Double Slit</li><li><span class="dot d1"></span>Diffraction Grating — Resolving Power</li><li><span class="dot d1"></span>Polarization — Nicol's Prism</li><li><span class="dot d1"></span>Half Wave & Quarter Wave Plates</li></ul></div>
+    <div class="card c2"><div class="bg-num">II</div><div class="ch"><span class="cnum n2">UNIT 02</span><h2 class="ctitle t2">Crystallography & X-ray</h2></div><ul class="topics"><li><span class="dot d2"></span>Space Lattice, Unit Cell, Bravais Lattices</li><li><span class="dot d2"></span>SC, BCC, FCC — Packing Fraction</li><li><span class="dot d2"></span>Miller Indices</li><li><span class="dot d2"></span>Bragg's Law</li><li><span class="dot d2"></span>X-ray Diffractometer</li><li><span class="dot d2"></span>Laue's & Powder Methods</li></ul></div>
+    <div class="card c3"><div class="bg-num">III</div><div class="ch"><span class="cnum n3">UNIT 03</span><h2 class="ctitle t3">Dielectric & Magnetic Materials</h2></div><ul class="topics"><li><span class="dot d3"></span>Dielectric Polarization Types</li><li><span class="dot d3"></span>Clausius-Mossotti Equation</li><li><span class="dot d3"></span>Dielectric Loss</li><li><span class="dot d3"></span>Dia, Para, Ferro Magnetic Materials</li><li><span class="dot d3"></span>Hysteresis — Soft & Hard Magnets</li><li><span class="dot d3"></span>Domain Theory</li></ul></div>
+    <div class="card c4"><div class="bg-num">IV</div><div class="ch"><span class="cnum n4">UNIT 04</span><h2 class="ctitle t4">Quantum Mechanics</h2></div><ul class="topics"><li><span class="dot d4"></span>Dual Nature of Matter</li><li><span class="dot d4"></span>Heisenberg's Uncertainty Principle</li><li><span class="dot d4"></span>Schrödinger's Wave Equation</li><li><span class="dot d4"></span>Particle in 1D Infinite Potential Well</li><li><span class="dot d4"></span>Fermi-Dirac Distribution</li><li><span class="dot d4"></span>Fermi Energy & Density of States</li></ul></div>
+    <div class="card c5"><div class="bg-num">V</div><div class="ch"><span class="cnum n5">UNIT 05</span><h2 class="ctitle t5">Semiconductors</h2></div><ul class="topics"><li><span class="dot d5"></span>Energy Band Formation</li><li><span class="dot d5"></span>Intrinsic Semiconductors — Fermi Level</li><li><span class="dot d5"></span>Extrinsic Semiconductors (n-type, p-type)</li><li><span class="dot d5"></span>Drift & Diffusion Currents</li><li><span class="dot d5"></span>Einstein's Equation</li><li><span class="dot d5"></span>Hall Effect & Applications</li></ul></div>
+  </div>
+</section>
+<footer class="footer"><div class="fbrand">LearnGeeks</div><div class="fsub">Your Gateway to Smart Learning</div><div class="flinks"><a class="flink" href="#">YouTube</a><a class="flink" href="#">Instagram</a><a class="flink" href="https://t.me/learngeekspremium">Telegram Premium</a></div></footer>
+</body></html>
