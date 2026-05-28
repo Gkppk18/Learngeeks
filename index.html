@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LearnGeeks — Smart Learning for Engineers</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg: #09090f;
+  --surface: #111118;
+  --card: #14141f;
+  --card2: #1a1a28;
+  --accent: #00f5a0;
+  --accent2: #00d4ff;
+  --accent3: #ff6b35;
+  --purple: #a78bfa;
+  --yellow: #f59e0b;
+  --text: #e8e8f0;
+  --muted: #5a5a7a;
+  --border: rgba(0,245,160,0.1);
+  --border2: rgba(255,255,255,0.06);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body { background:var(--bg); color:var(--text); font-family:'DM Sans',sans-serif; overflow-x:hidden; }
+
+/* GRID BG */
+body::before { content:''; position:fixed; inset:0; background-image:linear-gradient(rgba(0,245,160,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,160,0.02) 1px,transparent 1px); background-size:60px 60px; pointer-events:none; z-index:0; }
+
+/* ORBS */
+.orb { position:fixed; border-radius:50%; filter:blur(130px); pointer-events:none; z-index:0; }
+.o1 { width:600px; height:600px; background:rgba(0,245,160,0.055); top:-200px; left:-200px; animation:orb1 15s ease-in-out infinite; }
+.o2 { width:500px; height:500px; background:rgba(0,212,255,0.04); bottom:0; right:-150px; animation:orb2 18s ease-in-out infinite; }
+.o3 { width:350px; height:350px; background:rgba(167,139,250,0.035); top:50%; left:50%; animation:orb3 20s ease-in-out infinite; }
+@keyframes orb1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(60px,40px)} }
+@keyframes orb2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-40px,-50px)} }
+@keyframes orb3 { 0%,100%{transform:translate(-50%,-50%)} 50%{transform:translate(-45%,-55%)} }
+
+/* NAVBAR */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 40px; height:64px;
+  background:rgba(9,9,15,0.85); backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+}
+.nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+.logo-box { width:32px; height:32px; background:var(--accent); border-radius:8px; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:16px; color:#000; letter-spacing:1px; }
+.logo-text { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:2px; color:var(--text); }
+.logo-text span { color:var(--accent); }
+.nav-links { display:flex; align-items:center; gap:32px; }
+.nav-links a { font-size:13px; color:var(--muted); text-decoration:none; font-family:'Space Mono',monospace; letter-spacing:1px; transition:color .2s; }
+.nav-links a:hover { color:var(--accent); }
+.nav-cta { background:var(--accent); color:#000; font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:1.5px; padding:9px 18px; border-radius:8px; text-decoration:none; transition:all .2s; }
+.nav-cta:hover { background:#00e090; transform:translateY(-1px); }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+.hamburger span { width:24px; height:2px; background:var(--text); border-radius:2px; transition:all .3s; }
+.hamburger.active span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.hamburger.active span:nth-child(2) { opacity:0; }
+.hamburger.active span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+.mobile-menu { display:none; position:fixed; top:64px; left:0; right:0; background:rgba(9,9,15,0.97); backdrop-filter:blur(20px); border-bottom:1px solid var(--border2); padding:24px 40px; flex-direction:column; gap:20px; z-index:99; }
+.mobile-menu a { font-size:14px; color:var(--muted); text-decoration:none; font-family:'Space Mono',monospace; letter-spacing:1px; transition:color .2s; }
+.mobile-menu a:hover { color:var(--accent); }
+.mobile-menu .nav-cta { text-align:center; }
+.mobile-menu.open { display:flex; }
+
+/* HERO */
+.hero {
+  position:relative; z-index:1;
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:120px 40px 80px; text-align:center;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:10px;
+  background:rgba(0,245,160,0.07); border:1px solid rgba(0,245,160,0.22);
+  padding:8px 20px; border-radius:50px; margin-bottom:28px;
+  animation:fadeDown .6s ease both;
+}
+.badge-dot { width:7px; height:7px; background:var(--accent); border-radius:50%; animation:pulse 2s ease-in-out infinite; }
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+.hero-badge span { font-family:'Space Mono',monospace; font-size:11px; color:var(--accent); letter-spacing:2px; }
+.hero-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(60px,12vw,140px);
+  line-height:.9; letter-spacing:3px;
+  margin-bottom:20px;
+  animation:fadeDown .7s ease both;
+}
+.hero-title .t1 { display:block; color:var(--text); }
+.hero-title .t2 { display:block; background:linear-gradient(90deg,var(--accent),var(--accent2),var(--purple)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; background-size:200% auto; animation:gradShift 4s linear infinite; }
+@keyframes gradShift { 0%{background-position:0%} 100%{background-position:200%} }
+.hero-sub {
+  font-size:16px; color:var(--muted); max-width:540px;
+  margin:0 auto 36px; line-height:1.8;
+  animation:fadeDown .8s ease both;
+}
+.hero-sub strong { color:var(--text); }
+.hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; animation:fadeDown .9s ease both; }
+.btn-primary { background:var(--accent); color:#000; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:1.5px; padding:13px 28px; border-radius:10px; text-decoration:none; transition:all .25s; }
+.btn-primary:hover { background:#00e090; transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,245,160,0.25); }
+.btn-secondary { background:transparent; color:var(--text); font-family:'Space Mono',monospace; font-size:12px; letter-spacing:1.5px; padding:13px 28px; border-radius:10px; border:1px solid var(--border2); text-decoration:none; transition:all .25s; }
+.btn-secondary:hover { border-color:rgba(0,245,160,0.3); color:var(--accent); }
+.hero-stats { display:flex; gap:48px; justify-content:center; flex-wrap:wrap; margin-top:60px; padding-top:48px; border-top:1px solid var(--border2); animation:fadeDown 1s ease both; }
+.hstat-num { font-family:'Bebas Neue',sans-serif; font-size:44px; background:linear-gradient(135deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; line-height:1; }
+.hstat-lbl { font-size:11px; color:var(--muted); letter-spacing:2px; font-family:'Space Mono',monospace; margin-top:4px; }
+@keyframes fadeDown { from{opacity:0;transform:translateY(-20px)} to{opacity:1;transform:translateY(0)} }
+
+/* SECTIONS COMMON */
+section { position:relative; z-index:1; }
+.sec-inner { max-width:1200px; margin:0 auto; padding:80px 40px; }
+.sec-tag { display:inline-flex; align-items:center; gap:8px; background:rgba(0,245,160,0.07); border:1px solid rgba(0,245,160,0.18); padding:6px 14px; border-radius:50px; margin-bottom:16px; }
+.sec-tag span { font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:2px; text-transform:uppercase; }
+.sec-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(36px,6vw,72px); line-height:1; letter-spacing:2px; margin-bottom:14px; }
+.sec-title .hl { background:linear-gradient(90deg,var(--accent),var(--accent2)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.sec-sub { font-size:15px; color:var(--muted); max-width:500px; line-height:1.7; margin-bottom:48px; }
+.sec-divider { height:1px; background:var(--border2); margin:0; }
+
+/* SUBJECTS SECTION */
+#subjects { background:var(--surface); }
+.subjects-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); gap:20px; }
+.sub-card {
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:16px; padding:28px; position:relative; overflow:hidden;
+  text-decoration:none; color:inherit;
+  transition:all .3s ease; display:block;
+}
+.sub-card:hover { transform:translateY(-5px); border-color:rgba(0,245,160,0.25); box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+.sub-card::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; opacity:0; transition:opacity .3s; }
+.sub-card:hover::before { opacity:1; }
+.sc1::before { background:linear-gradient(90deg,var(--accent),var(--accent2)); }
+.sc2::before { background:linear-gradient(90deg,var(--accent2),var(--purple)); }
+.sc3::before { background:linear-gradient(90deg,var(--accent3),var(--yellow)); }
+.sc4::before { background:linear-gradient(90deg,var(--accent),var(--yellow)); }
+.sc5::before { background:linear-gradient(90deg,var(--purple),var(--accent)); }
+.sc6::before { background:linear-gradient(90deg,var(--yellow),var(--accent2)); }
+.sub-icon { font-size:28px; margin-bottom:14px; }
+.sub-num { font-family:'Space Mono',monospace; font-size:9px; color:#000; font-weight:700; padding:3px 8px; border-radius:5px; display:inline-block; margin-bottom:10px; letter-spacing:1px; }
+.n1{background:var(--accent);} .n2{background:var(--accent2);} .n3{background:var(--accent3);} .n4{background:var(--yellow);} .n5{background:var(--purple);} .n6{background:#00d4ff;}
+.sub-name { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:1px; margin-bottom:8px; }
+.s1{color:var(--accent);} .s2{color:var(--accent2);} .s3{color:var(--accent3);} .s4{color:var(--yellow);} .s5{color:var(--purple);} .s6{color:#00d4ff;}
+.sub-desc { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:16px; }
+.sub-meta { display:flex; align-items:center; justify-content:space-between; }
+.sub-units { font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:1px; }
+.sub-arrow { font-size:18px; color:var(--muted); transition:all .2s; }
+.sub-card:hover .sub-arrow { color:var(--accent); transform:translateX(4px); }
+
+/* AI STUDY HELPER */
+#ai { background:var(--bg); }
+.ai-wrapper { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+.ai-info { }
+.ai-features { display:flex; flex-direction:column; gap:14px; margin-top:32px; }
+.ai-feat { display:flex; align-items:flex-start; gap:14px; padding:16px; background:var(--card); border:1px solid var(--border2); border-radius:12px; }
+.ai-feat-icon { font-size:20px; flex-shrink:0; margin-top:2px; }
+.ai-feat-title { font-size:14px; font-weight:600; margin-bottom:4px; }
+.ai-feat-desc { font-size:13px; color:var(--muted); line-height:1.5; }
+.ai-chat-box {
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:20px; overflow:hidden; position:sticky; top:80px;
+}
+.chat-header { padding:16px 20px; background:var(--card2); border-bottom:1px solid var(--border2); display:flex; align-items:center; gap:12px; }
+.chat-avatar { width:36px; height:36px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:16px; }
+.chat-name { font-size:14px; font-weight:600; }
+.chat-status { font-size:11px; color:var(--accent); font-family:'Space Mono',monospace; }
+.chat-messages { padding:20px; display:flex; flex-direction:column; gap:14px; min-height:320px; max-height:400px; overflow-y:auto; }
+.msg { max-width:85%; }
+.msg-bot { align-self:flex-start; }
+.msg-user { align-self:flex-end; }
+.msg-bubble { padding:12px 16px; border-radius:14px; font-size:13px; line-height:1.6; }
+.msg-bot .msg-bubble { background:var(--card2); border:1px solid var(--border2); border-radius:4px 14px 14px 14px; }
+.msg-user .msg-bubble { background:linear-gradient(135deg,rgba(0,245,160,0.15),rgba(0,212,255,0.15)); border:1px solid rgba(0,245,160,0.2); border-radius:14px 14px 4px 14px; color:var(--text); }
+.msg-time { font-size:10px; color:var(--muted); font-family:'Space Mono',monospace; margin-top:4px; padding:0 4px; }
+.chat-input-area { padding:16px 20px; border-top:1px solid var(--border2); display:flex; gap:10px; }
+.chat-input { flex:1; background:var(--card2); border:1px solid var(--border2); border-radius:10px; padding:12px 16px; color:var(--text); font-family:'DM Sans',sans-serif; font-size:13px; outline:none; transition:border-color .2s; }
+.chat-input:focus { border-color:rgba(0,245,160,0.3); }
+.chat-input::placeholder { color:var(--muted); }
+.chat-send { background:var(--accent); color:#000; border:none; border-radius:10px; width:42px; height:42px; font-size:18px; cursor:pointer; transition:all .2s; display:flex; align-items:center; justify-content:center; }
+.chat-send:hover { background:#00e090; transform:scale(1.05); }
+.chat-send:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.typing { display:flex; gap:4px; align-items:center; padding:8px 0; }
+.typing span { width:6px; height:6px; background:var(--muted); border-radius:50%; animation:typingDot 1.2s ease-in-out infinite; }
+.typing span:nth-child(2) { animation-delay:.2s; }
+.typing span:nth-child(3) { animation-delay:.4s; }
+@keyframes typingDot { 0%,80%,100%{transform:scale(0.8);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+.suggested-qs { padding:0 20px 16px; display:flex; flex-wrap:wrap; gap:8px; }
+.sq { background:rgba(0,245,160,0.07); border:1px solid rgba(0,245,160,0.15); padding:6px 12px; border-radius:20px; font-size:11px; color:var(--accent); cursor:pointer; font-family:'Space Mono',monospace; letter-spacing:.5px; transition:all .2s; white-space:nowrap; }
+.sq:hover { background:rgba(0,245,160,0.14); }
+
+/* JOBS SECTION */
+#jobs { background:var(--surface); }
+.jobs-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+.job-channel-card {
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:20px; padding:32px; text-align:center;
+  transition:all .3s; position:relative; overflow:hidden;
+}
+.job-channel-card::before { content:''; position:absolute; inset:0; opacity:0; transition:opacity .3s; pointer-events:none; }
+.jc-wa::before { background:radial-gradient(circle at top right,rgba(37,211,102,0.08),transparent 60%); }
+.jc-ig::before { background:radial-gradient(circle at top right,rgba(225,48,108,0.08),transparent 60%); }
+.job-channel-card:hover { transform:translateY(-4px); }
+.job-channel-card:hover::before { opacity:1; }
+.jc-icon { font-size:48px; margin-bottom:16px; }
+.jc-name { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; margin-bottom:8px; }
+.jc-wa .jc-name { color:#25d366; }
+.jc-ig .jc-name { color:#e1306c; }
+.jc-desc { font-size:13px; color:var(--muted); line-height:1.6; margin-bottom:20px; }
+.jc-features { display:flex; flex-direction:column; gap:8px; margin-bottom:24px; text-align:left; }
+.jc-feat { display:flex; align-items:center; gap:8px; font-size:13px; color:#c0c0d8; }
+.jc-feat::before { content:'✓'; color:var(--accent); font-weight:700; flex-shrink:0; }
+.jc-btn { display:inline-block; padding:12px 28px; border-radius:10px; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:1px; text-decoration:none; transition:all .25s; }
+.jc-wa .jc-btn { background:rgba(37,211,102,0.12); color:#25d366; border:1px solid rgba(37,211,102,0.25); }
+.jc-wa .jc-btn:hover { background:rgba(37,211,102,0.2); transform:translateY(-2px); }
+.jc-ig .jc-btn { background:rgba(225,48,108,0.12); color:#e1306c; border:1px solid rgba(225,48,108,0.25); }
+.jc-ig .jc-btn:hover { background:rgba(225,48,108,0.2); transform:translateY(-2px); }
+.jobs-note { margin-top:28px; padding:20px 24px; background:rgba(0,245,160,0.05); border:1px solid rgba(0,245,160,0.12); border-radius:12px; display:flex; align-items:center; gap:14px; }
+.jobs-note-icon { font-size:22px; flex-shrink:0; }
+.jobs-note-text { font-size:13px; color:var(--muted); line-height:1.6; }
+.jobs-note-text strong { color:var(--accent); }
+
+/* ABOUT */
+#about { background:var(--bg); }
+.about-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; }
+.about-img { position:relative; }
+.about-card-big { background:var(--card); border:1px solid var(--border2); border-radius:20px; padding:36px; position:relative; overflow:hidden; }
+.about-card-big::before { content:'LG'; position:absolute; bottom:-20px; right:-10px; font-family:'Bebas Neue',sans-serif; font-size:140px; color:rgba(0,245,160,0.04); line-height:1; pointer-events:none; }
+.about-avatar { width:72px; height:72px; background:linear-gradient(135deg,var(--accent),var(--accent2)); border-radius:18px; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:32px; color:#000; margin-bottom:20px; }
+.about-name { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:2px; color:var(--accent); margin-bottom:4px; }
+.about-role { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); letter-spacing:2px; margin-bottom:16px; }
+.about-bio { font-size:14px; color:var(--muted); line-height:1.8; }
+.about-socials { display:flex; gap:12px; margin-top:20px; flex-wrap:wrap; }
+.social-btn { display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border-radius:8px; font-size:12px; font-family:'Space Mono',monospace; letter-spacing:1px; text-decoration:none; transition:all .2s; }
+.sb-yt { background:rgba(255,0,0,0.1); color:#ff4444; border:1px solid rgba(255,0,0,0.2); }
+.sb-ig { background:rgba(225,48,108,0.1); color:#e1306c; border:1px solid rgba(225,48,108,0.2); }
+.sb-tg { background:rgba(0,136,204,0.1); color:#0088cc; border:1px solid rgba(0,136,204,0.2); }
+.social-btn:hover { transform:translateY(-2px); }
+.about-text h3 { font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; margin-bottom:16px; }
+.about-text h3 .hl { color:var(--accent); }
+.about-text p { font-size:15px; color:var(--muted); line-height:1.8; margin-bottom:16px; }
+.about-vals { display:flex; flex-direction:column; gap:12px; margin-top:24px; }
+.about-val { display:flex; align-items:flex-start; gap:12px; }
+.val-icon { font-size:20px; flex-shrink:0; }
+.val-text strong { font-size:14px; display:block; margin-bottom:2px; }
+.val-text span { font-size:13px; color:var(--muted); }
+
+/* CONTACT */
+#contact { background:var(--surface); }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+.contact-links { display:flex; flex-direction:column; gap:14px; }
+.contact-link {
+  display:flex; align-items:center; gap:16px;
+  background:var(--card); border:1px solid var(--border2);
+  border-radius:14px; padding:20px 24px; text-decoration:none;
+  transition:all .3s; color:inherit;
+}
+.contact-link:hover { transform:translateX(6px); border-color:rgba(0,245,160,0.2); }
+.cl-icon { font-size:26px; flex-shrink:0; }
+.cl-info { flex:1; }
+.cl-name { font-size:14px; font-weight:600; margin-bottom:3px; }
+.cl-handle { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
+.cl-arrow { font-size:18px; color:var(--muted); transition:all .2s; }
+.contact-link:hover .cl-arrow { color:var(--accent); transform:translateX(4px); }
+.premium-box {
+  background:linear-gradient(135deg,rgba(0,245,160,0.08),rgba(0,212,255,0.05));
+  border:1px solid rgba(0,245,160,0.18); border-radius:20px; padding:36px;
+  text-align:center; display:flex; flex-direction:column; align-items:center; gap:16px;
+}
+.premium-icon { font-size:48px; }
+.premium-title { font-family:'Bebas Neue',sans-serif; font-size:36px; letter-spacing:2px; color:var(--accent); }
+.premium-desc { font-size:14px; color:var(--muted); line-height:1.7; max-width:300px; }
+.premium-perks { display:flex; flex-direction:column; gap:8px; width:100%; text-align:left; }
+.perk { display:flex; align-items:center; gap:8px; font-size:13px; }
+.perk::before { content:'⚡'; flex-shrink:0; }
+.premium-btn { background:var(--accent); color:#000; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:2px; padding:14px 32px; border-radius:12px; text-decoration:none; transition:all .25s; margin-top:8px; }
+.premium-btn:hover { background:#00e090; transform:translateY(-2px); box-shadow:0 10px 30px rgba(0,245,160,0.25); }
+
+/* FOOTER */
+footer { position:relative; z-index:1; background:var(--bg); border-top:1px solid var(--border2); padding:48px 40px 32px; }
+.footer-inner { max-width:1200px; margin:0 auto; }
+.footer-top { display:flex; justify-content:space-between; align-items:flex-start; gap:40px; flex-wrap:wrap; margin-bottom:40px; }
+.footer-brand-area { max-width:280px; }
+.footer-logo { display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.footer-logo-box { width:36px; height:36px; background:var(--accent); border-radius:9px; display:flex; align-items:center; justify-content:center; font-family:'Bebas Neue',sans-serif; font-size:18px; color:#000; }
+.footer-logo-text { font-family:'Bebas Neue',sans-serif; font-size:24px; letter-spacing:2px; }
+.footer-logo-text span { color:var(--accent); }
+.footer-tagline { font-size:13px; color:var(--muted); line-height:1.6; }
+.footer-links-col h4 { font-family:'Space Mono',monospace; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+.footer-links-col a { display:block; font-size:13px; color:var(--muted); text-decoration:none; margin-bottom:10px; transition:color .2s; }
+.footer-links-col a:hover { color:var(--accent); }
+.footer-bottom { border-top:1px solid var(--border2); padding-top:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+.footer-copy { font-family:'Space Mono',monospace; font-size:10px; color:var(--muted); letter-spacing:1px; }
+.footer-copy span { color:var(--accent); }
+
+/* WATERMARK */
+.wm { position:fixed; bottom:24px; right:24px; z-index:999; display:flex; align-items:center; gap:8px; background:rgba(0,245,160,0.07); border:1px solid rgba(0,245,160,0.22); padding:9px 16px; border-radius:50px; backdrop-filter:blur(12px); }
+.wm-dot { width:7px; height:7px; background:var(--accent); border-radius:50%; animation:pulse 2s ease-in-out infinite; }
+.wm-text { font-family:'Space Mono',monospace; font-size:10px; color:var(--accent); letter-spacing:1.5px; }
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav { padding:0 20px; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .hero { padding:100px 20px 60px; }
+  .hero-stats { gap:28px; }
+  .sec-inner { padding:60px 20px; }
+  .subjects-grid { grid-template-columns:1fr; }
+  .ai-wrapper { grid-template-columns:1fr; }
+  .jobs-grid { grid-template-columns:1fr; }
+  .about-grid { grid-template-columns:1fr; }
+  .contact-grid { grid-template-columns:1fr; }
+  .footer-top { flex-direction:column; }
+  .footer-bottom { flex-direction:column; text-align:center; }
+  .wm { bottom:16px; right:16px; padding:7px 12px; }
+}
+::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:var(--bg);} ::-webkit-scrollbar-thumb{background:rgba(0,245,160,0.2);border-radius:3px;}
+</style>
+</head>
+<body>
+
+<!-- ORBS -->
+<div class="orb o1"></div>
+<div class="orb o2"></div>
+<div class="orb o3"></div>
+
+<!-- WATERMARK -->
+<div class="wm"><div class="wm-dot"></div><span class="wm-text">© LearnGeeks Premium</span></div>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#" class="nav-logo">
+    <div class="logo-box">LG</div>
+    <span class="logo-text">Learn<span>Geeks</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#subjects">Subjects</a>
+    <a href="#ai">AI Helper</a>
+    <a href="#jobs">Jobs</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="https://t.me/learngeekspremium" class="nav-cta" target="_blank">Join Premium</a>
+  </div>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#subjects" onclick="toggleMenu()">📚 Subjects</a>
+  <a href="#ai" onclick="toggleMenu()">🤖 AI Helper</a>
+  <a href="#jobs" onclick="toggleMenu()">💼 Jobs</a>
+  <a href="#about" onclick="toggleMenu()">👤 About</a>
+  <a href="#contact" onclick="toggleMenu()">📬 Contact</a>
+  <a href="https://t.me/learngeekspremium" class="nav-cta" target="_blank">⚡ Join Premium</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <div class="badge-dot"></div>
+    <span>R23 B.Tech · All Branches · Free Resources</span>
+  </div>
+  <h1 class="hero-title">
+    <span class="t1">Learn</span>
+    <span class="t2">Smarter</span>
+  </h1>
+  <p class="hero-sub">
+    Your all-in-one study platform for <strong>Engineering students</strong> — important topics, AI-powered doubt solving, and real-time job updates. All free.
+  </p>
+  <div class="hero-btns">
+    <a href="#subjects" class="btn-primary">📚 Explore Subjects</a>
+    <a href="https://t.me/learngeekspremium" class="btn-secondary" target="_blank">⚡ Join Premium</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-num">6+</div><div class="hstat-lbl">Subjects</div></div>
+    <div class="hstat"><div class="hstat-num">100+</div><div class="hstat-lbl">Imp Topics</div></div>
+    <div class="hstat"><div class="hstat-num">AI</div><div class="hstat-lbl">Study Helper</div></div>
+    <div class="hstat"><div class="hstat-num">Daily</div><div class="hstat-lbl">Job Updates</div></div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- SUBJECTS -->
+<section id="subjects">
+  <div class="sec-inner">
+    <div class="sec-tag"><span>📚 Department 1</span></div>
+    <h2 class="sec-title">Important <span class="hl">Topics</span></h2>
+    <p class="sec-sub">Unit-wise important topics for all R23 B.Tech I Year subjects. Click any subject to explore.</p>
+    <div class="subjects-grid">
+      <a href="./learngeeks-lac.html" class="sub-card sc1">
+        <div class="sub-icon">📐</div>
+        <div class="sub-num n1">MATH</div>
+        <div class="sub-name s1">Linear Algebra & Calculus</div>
+        <div class="sub-desc">Matrices, Eigenvalues, Calculus, Partial Differentiation, Multiple Integrals</div>
+        <div class="sub-meta"><span class="sub-units">5 UNITS · 30+ TOPICS</span><span class="sub-arrow">→</span></div>
+      </a>
+      <a href="./beee.html" class="sub-card sc2">
+        <div class="sub-icon">⚡</div>
+        <div class="sub-num n2">BEEE</div>
+        <div class="sub-name s2">Basic Electrical & Electronics</div>
+        <div class="sub-desc">DC/AC Circuits, Machines, Digital Electronics, Semiconductor Devices</div>
+        <div class="sub-meta"><span class="sub-units">6 UNITS · 25+ TOPICS</span><span class="sub-arrow">→</span></div>
+      </a>
+      <a href="./engineering-physics.html" class="sub-card sc3">
+        <div class="sub-icon">🔬</div>
+        <div class="sub-num n3">PHY</div>
+        <div class="sub-name s3">Engineering Physics</div>
+        <div class="sub-desc">Wave Optics, Crystallography, Quantum Mechanics, Semiconductors</div>
+        <div class="sub-meta"><span class="sub-units">5 UNITS · 28+ TOPICS</span><span class="sub-arrow">→</span></div>
+      </a>
+      <a href="./engineering-graphics.html" class="sub-card sc4">
+        <div class="sub-icon">✏️</div>
+        <div class="sub-num n4">EG</div>
+        <div class="sub-name s4">Engineering Graphics</div>
+        <div class="sub-desc">Projections, Sections, Surface Development, Isometric Views</div>
+        <div class="sub-meta"><span class="sub-units">5 UNITS · 20+ TOPICS</span><span class="sub-arrow">→</span></div>
+      </a>
+      <a href="./engineering-mechanics.html" class="sub-card sc5">
+        <div class="sub-icon">⚙️</div>
+        <div class="sub-num n5">EM</div>
+        <div class="sub-name s5">Engineering Mechanics</div>
+        <div class="sub-desc">Forces, Equilibrium, Centroid, Kinematics, Rigid Body Motion</div>
+        <div class="sub-meta"><span class="sub-units">5 UNITS · 25+ TOPICS</span><span class="sub-arrow">→</span></div>
+      </a>
+      <a href="./intro-to-programming.html" class="sub-card sc6">
+        <div class="sub-icon">💻</div>
+        <div class="sub-num n6">PROG</div>
+        <div class="sub-name s6">Intro to Programming</div>
+        <div class="sub-desc">Algorithms, Control Structures, Arrays, Pointers, Functions in C</div>
+        <div class="sub-meta"><span class="sub-units">5 UNITS · 22+ TOPICS</span><span class="sub-arrow">→</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- AI STUDY HELPER -->
+<section id="ai">
+  <div class="sec-inner">
+    <div class="sec-tag"><span>🤖 Department 2</span></div>
+    <h2 class="sec-title">AI Study <span class="hl">Helper</span></h2>
+    <p class="sec-sub">Ask any engineering doubt and get instant, accurate explanations powered by AI.</p>
+    <div class="ai-wrapper">
+      <div class="ai-info">
+        <div class="ai-features">
+          <div class="ai-feat"><div class="ai-feat-icon">🎯</div><div><div class="ai-feat-title">Subject Focused</div><div class="ai-feat-desc">Trained specifically for B.Tech engineering subjects — no off-topic answers.</div></div></div>
+          <div class="ai-feat"><div class="ai-feat-icon">⚡</div><div><div class="ai-feat-title">Instant Answers</div><div class="ai-feat-desc">Get step-by-step explanations for any topic from your syllabus instantly.</div></div></div>
+          <div class="ai-feat"><div class="ai-feat-icon">📖</div><div><div class="ai-feat-title">All Subjects Covered</div><div class="ai-feat-desc">LAC, BEEE, Physics, Graphics, Mechanics, Programming — all supported.</div></div></div>
+          <div class="ai-feat"><div class="ai-feat-icon">🔄</div><div><div class="ai-feat-title">24/7 Available</div><div class="ai-feat-desc">Study at any time. Your AI tutor never sleeps.</div></div></div>
+        </div>
+      </div>
+      <div class="ai-chat-box">
+        <div class="chat-header">
+          <div class="chat-avatar">🤖</div>
+          <div><div class="chat-name">LearnGeeks AI</div><div class="chat-status">● Online</div></div>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="msg msg-bot"><div class="msg-bubble">👋 Hi! I'm your LearnGeeks AI Study Helper. Ask me anything about your engineering subjects — Matrices, Circuits, Physics, Programming, anything!</div><div class="msg-time">Just now</div></div>
+        </div>
+        <div class="suggested-qs" id="suggestedQs">
+          <span class="sq" onclick="sendSuggested(this)">What is KVL?</span>
+          <span class="sq" onclick="sendSuggested(this)">Explain Eigenvalues</span>
+          <span class="sq" onclick="sendSuggested(this)">What is Newton's Rings?</span>
+          <span class="sq" onclick="sendSuggested(this)">What is a pointer in C?</span>
+        </div>
+        <div class="chat-input-area">
+          <input class="chat-input" id="chatInput" type="text" placeholder="Ask your engineering doubt..." onkeydown="if(event.key==='Enter') sendMessage()"/>
+          <button class="chat-send" id="sendBtn" onclick="sendMessage()">➤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- JOBS -->
+<section id="jobs">
+  <div class="sec-inner">
+    <div class="sec-tag"><span>💼 Department 3</span></div>
+    <h2 class="sec-title">Job <span class="hl">Updates</span></h2>
+    <p class="sec-sub">Stay updated with the latest IT & engineering job opportunities. Follow our channels for real-time alerts.</p>
+    <div class="jobs-grid">
+      <div class="job-channel-card jc-wa">
+        <div class="jc-icon">📱</div>
+        <div class="jc-name">WhatsApp Channel</div>
+        <div class="jc-desc">Get instant job alerts directly on WhatsApp. Daily IT & software job updates for freshers.</div>
+        <div class="jc-features">
+          <div class="jc-feat">Daily fresher job alerts</div>
+          <div class="jc-feat">Hyderabad & Bangalore focus</div>
+          <div class="jc-feat">Off-campus drives</div>
+          <div class="jc-feat">Walk-in interviews</div>
+        </div>
+        <a href="#" class="jc-btn" target="_blank">📲 Follow WhatsApp Channel</a>
+      </div>
+      <div class="job-channel-card jc-ig">
+        <div class="jc-icon">📸</div>
+        <div class="jc-name">Instagram Channel</div>
+        <div class="jc-desc">Follow our Instagram for job posts, study tips, and LearnGeeks content updates.</div>
+        <div class="jc-features">
+          <div class="jc-feat">Job opportunity posts</div>
+          <div class="jc-feat">Study tips & tricks</div>
+          <div class="jc-feat">Exam preparation content</div>
+          <div class="jc-feat">Career guidance reels</div>
+        </div>
+        <a href="#" class="jc-btn" target="_blank">📷 Follow on Instagram</a>
+      </div>
+    </div>
+    <div class="jobs-note">
+      <div class="jobs-note-icon">⚡</div>
+      <div class="jobs-note-text"><strong>Premium members</strong> get access to exclusive job alerts, resume review, and direct referrals through our Telegram Premium channel. <a href="https://t.me/learngeekspremium" style="color:var(--accent);text-decoration:none;" target="_blank">Join now →</a></div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-inner">
+    <div class="sec-tag"><span>👤 About</span></div>
+    <div class="about-grid">
+      <div class="about-img">
+        <div class="about-card-big">
+          <div class="about-avatar">LG</div>
+          <div class="about-name">LearnGeeks</div>
+          <div class="about-role">Educational Content Brand · Est. 2023</div>
+          <div class="about-bio">Built by a B.Tech CSE graduate from Hyderabad/Vijayawada region, LearnGeeks is an educational content brand helping engineering students ace their exams with smart, focused study materials.</div>
+          <div class="about-socials">
+            <a href="#" class="social-btn sb-yt" target="_blank">▶ YouTube</a>
+            <a href="#" class="social-btn sb-ig" target="_blank">◉ Instagram</a>
+            <a href="https://t.me/learngeekspremium" class="social-btn sb-tg" target="_blank">✈ Telegram</a>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <h3>Why <span class="hl">LearnGeeks?</span></h3>
+        <p>Engineering college can be overwhelming — hundreds of topics, dense textbooks, and exams around the corner. LearnGeeks cuts through the noise and gives you exactly what matters.</p>
+        <p>From important topic breakdowns to AI-powered doubt solving and job updates — we've got everything a B.Tech student needs in one place.</p>
+        <div class="about-vals">
+          <div class="about-val"><div class="val-icon">🎯</div><div class="val-text"><strong>Focused Content</strong><span>Only what's important for your exams — no fluff.</span></div></div>
+          <div class="about-val"><div class="val-icon">🤖</div><div class="val-text"><strong>AI-Powered Learning</strong><span>Get instant answers to any engineering doubt 24/7.</span></div></div>
+          <div class="about-val"><div class="val-icon">💼</div><div class="val-text"><strong>Career Ready</strong><span>Job updates, resume help, and placement guidance.</span></div></div>
+          <div class="about-val"><div class="val-icon">🆓</div><div class="val-text"><strong>Free & Premium</strong><span>Core content is free. Premium unlocks everything.</span></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-inner">
+    <div class="sec-tag"><span>📬 Contact</span></div>
+    <h2 class="sec-title">Get In <span class="hl">Touch</span></h2>
+    <p class="sec-sub">Follow us across platforms for updates, content, and support.</p>
+    <div class="contact-grid">
+      <div class="contact-links">
+        <a href="#" class="contact-link" target="_blank">
+          <div class="cl-icon">▶️</div>
+          <div class="cl-info"><div class="cl-name">YouTube</div><div class="cl-handle">@LearnGeeks</div></div>
+          <div class="cl-arrow">→</div>
+        </a>
+        <a href="#" class="contact-link" target="_blank">
+          <div class="cl-icon">📸</div>
+          <div class="cl-info"><div class="cl-name">Instagram</div><div class="cl-handle">@LearnGeeks</div></div>
+          <div class="cl-arrow">→</div>
+        </a>
+        <a href="https://t.me/learngeekspremium" class="contact-link" target="_blank">
+          <div class="cl-icon">✈️</div>
+          <div class="cl-info"><div class="cl-name">Telegram Premium</div><div class="cl-handle">t.me/learngeekspremium</div></div>
+          <div class="cl-arrow">→</div>
+        </a>
+        <a href="#" class="contact-link" target="_blank">
+          <div class="cl-icon">📱</div>
+          <div class="cl-info"><div class="cl-name">WhatsApp Channel</div><div class="cl-handle">Job Updates & Alerts</div></div>
+          <div class="cl-arrow">→</div>
+        </a>
+      </div>
+      <div class="premium-box">
+        <div class="premium-icon">⚡</div>
+        <div class="premium-title">Go Premium</div>
+        <div class="premium-desc">Unlock ad-free access, exclusive study materials, job alerts & more.</div>
+        <div class="premium-perks">
+          <div class="perk">Ad-free website access</div>
+          <div class="perk">Exclusive PDF notes</div>
+          <div class="perk">Priority job alerts</div>
+          <div class="perk">Resume & portfolio help</div>
+          <div class="perk">Personal guidance sessions</div>
+        </div>
+        <a href="https://t.me/learngeekspremium" class="premium-btn" target="_blank">JOIN PREMIUM →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand-area">
+        <div class="footer-logo">
+          <div class="footer-logo-box">LG</div>
+          <span class="footer-logo-text">Learn<span>Geeks</span></span>
+        </div>
+        <div class="footer-tagline">Smart Notes for Smart Students. Your all-in-one engineering study platform.</div>
+      </div>
+      <div class="footer-links-col">
+        <h4>Subjects</h4>
+        <a href="./learngeeks-lac.html">Linear Algebra & Calculus</a>
+        <a href="./beee.html">BEEE</a>
+        <a href="./engineering-physics.html">Engineering Physics</a>
+        <a href="./engineering-graphics.html">Engineering Graphics</a>
+        <a href="./engineering-mechanics.html">Engineering Mechanics</a>
+        <a href="./intro-to-programming.html">Intro to Programming</a>
+      </div>
+      <div class="footer-links-col">
+        <h4>Platform</h4>
+        <a href="#ai">AI Study Helper</a>
+        <a href="#jobs">Job Updates</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="https://t.me/learngeekspremium" target="_blank">Join Premium</a>
+      </div>
+      <div class="footer-links-col">
+        <h4>Follow Us</h4>
+        <a href="#" target="_blank">YouTube</a>
+        <a href="#" target="_blank">Instagram</a>
+        <a href="https://t.me/learngeekspremium" target="_blank">Telegram</a>
+        <a href="#" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2024 <span>LearnGeeks</span>. All rights reserved. Built with ❤️ for Engineers.</div>
+      <div class="footer-copy">gkppk18.github.io/learngeeks</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── MOBILE MENU ──────────────────────────────
+const mobileMenu = document.getElementById('mobileMenu');
+const hamburger = document.querySelector('.hamburger');
+
+function toggleMenu() {
+  const isOpen = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('active', isOpen);
+}
+
+// Close menu when clicking outside
+document.addEventListener('click', (e) => {
+  if (!mobileMenu.contains(e.target) && !hamburger.contains(e.target)) {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('active');
+  }
+});
+
+// ── AI CHAT (uses local smart responses — no API key needed) ──────────────────
+const KB = {
+  // Linear Algebra & Calculus
+  "kvl|kirchhoff voltage": "⚡ **Kirchhoff's Voltage Law (KVL):**\nThe sum of all voltages around any closed loop in a circuit equals zero.\n\n**Formula:** ΣV = 0\n\n**Example:** In a loop with V=10V, R1=4Ω, R2=6Ω:\n10 - 4I - 6I = 0 → I = 1A\n\n💡 **Tip:** Always assign current direction before applying KVL!",
+  "kcl|kirchhoff current": "⚡ **Kirchhoff's Current Law (KCL):**\nThe sum of currents entering a node equals the sum leaving it.\n\n**Formula:** ΣI_in = ΣI_out\n\n💡 **Tip:** KCL is based on conservation of charge!",
+  "eigenvalue|eigenvector": "🔢 **Eigenvalues & Eigenvectors:**\nFor matrix A, if Ax = λx, then λ is the eigenvalue and x is the eigenvector.\n\n**Steps to find:**\n1. Solve det(A - λI) = 0 → characteristic equation\n2. Find λ values (eigenvalues)\n3. Substitute each λ into (A - λI)x = 0 to get eigenvectors\n\n💡 **Tip:** Number of eigenvalues = order of matrix!",
+  "matrix|rank|gauss": "📊 **Matrix Rank (Echelon Form):**\nRank = number of non-zero rows in row echelon form.\n\n**Gauss-Jordan Method steps:**\n1. Write augmented matrix [A|b]\n2. Apply row operations to get RREF\n3. Read solution directly\n\n💡 **Tip:** Rank tells you if a system has unique, infinite, or no solution!",
+  "cayley.hamilton": "🔢 **Cayley-Hamilton Theorem:**\nEvery square matrix satisfies its own characteristic equation.\n\n**Use:** To find A⁻¹ and powers of A without direct computation.\n\n**Steps:**\n1. Find characteristic polynomial p(λ)\n2. Replace λ with A → p(A) = 0\n3. Rearrange to find A⁻¹\n\n💡 **Tip:** Very common exam question — practice 2-3 examples!",
+  "newton.ring|newton ring": "🔬 **Newton's Rings:**\nConcentric circular interference fringes formed between a plano-convex lens and flat glass.\n\n**Diameter of nth dark ring:** D²ₙ = 4nλR\n\nWhere:\n- n = ring number\n- λ = wavelength of light\n- R = radius of curvature\n\n**Application:** Finding wavelength of light & refractive index\n\n💡 **Tip:** Centre is always dark for reflected light!",
+  "bragg|xray|x-ray": "🔬 **Bragg's Law:**\n2d sinθ = nλ\n\nWhere:\n- d = interplanar spacing\n- θ = glancing angle\n- n = order of diffraction\n- λ = wavelength of X-rays\n\n**Used for:** Crystal structure determination\n\n💡 **Tip:** Bragg's law is the most important formula in Crystallography unit!",
+  "pointer|pointers": "💻 **Pointers in C:**\nA pointer stores the memory address of another variable.\n\n```c\nint a = 10;\nint *p = &a;   // p holds address of a\nprintf(\"%d\", *p); // prints 10 (dereferencing)\n```\n\n**Key symbols:**\n- `&` → address-of operator\n- `*` → dereference operator\n\n💡 **Tip:** Always initialize pointers before using them!",
+  "array|arrays": "💻 **Arrays in C:**\nA collection of elements of the same type stored in contiguous memory.\n\n```c\nint arr[5] = {1, 2, 3, 4, 5};\nprintf(\"%d\", arr[0]); // prints 1\n```\n\n**2D Array:**\n```c\nint mat[3][3]; // 3x3 matrix\n```\n\n💡 **Tip:** Array index starts from 0 in C!",
+  "rolle|lagrange|cauchy|mean value": "📐 **Mean Value Theorems:**\n\n**Rolle's Theorem:** If f is continuous on [a,b], differentiable on (a,b), and f(a)=f(b), then ∃c where f'(c)=0.\n\n**Lagrange's MVT:** f'(c) = [f(b)-f(a)]/(b-a)\n\n**Cauchy's MVT:** f'(c)/g'(c) = [f(b)-f(a)]/[g(b)-g(a)]\n\n💡 **Tip:** Rolle's is a special case of Lagrange's theorem!",
+  "semiconductor|hall effect|fermi": "⚛️ **Semiconductors:**\n\n**Intrinsic:** Pure semiconductor (Si, Ge). Conductivity increases with temperature.\n\n**Extrinsic:**\n- n-type: donor impurity (extra electrons)\n- p-type: acceptor impurity (holes)\n\n**Hall Effect:** When current flows in a magnetic field, a transverse voltage (Hall voltage) develops.\n\n**VH = IB/ned**\n\n**Fermi Level:** Energy level with 50% probability of occupation.\n\n💡 **Tip:** Hall effect is used to identify semiconductor type!",
+  "friction|coulomb": "⚙️ **Friction (Engineering Mechanics):**\n\n**Types:**\n- Static friction (fs): before motion\n- Kinetic friction (fk): during motion\n- fs > fk always\n\n**Coulomb's Law:** F = μN\n- μ = coefficient of friction\n- N = Normal force\n\n**Cone of Friction:** tan φ = μ where φ is friction angle\n\n💡 **Tip:** Impending motion = maximum static friction!",
+  "centroid|centre of gravity": "⚙️ **Centroid & Centre of Gravity:**\n\n**Centroid** = geometric center (for areas)\n**Centre of Gravity** = balance point (for weights)\n\n**For composite figures:**\n- x̄ = Σ(Aᵢxᵢ)/ΣAᵢ\n- ȳ = Σ(Aᵢyᵢ)/ΣAᵢ\n\n**Common centroids:**\n- Rectangle: (b/2, h/2)\n- Triangle: (b/3, h/3) from base\n- Semicircle: 4r/3π from diameter\n\n💡 **Tip:** For holes/cutouts, subtract their area and moment!",
+  "orthographic|projection": "✏️ **Orthographic Projections:**\nViewing an object from different directions on a 2D plane.\n\n**Reference planes:**\n- HP = Horizontal Plane\n- VP = Vertical Plane\n- PP = Profile Plane\n\n**Views:**\n- Front View (FV): on VP\n- Top View (TV): on HP\n- Side View (SV): on PP\n\n**Quadrants:** Object can be in any of 4 quadrants depending on position.\n\n💡 **Tip:** In India, First Angle Projection is standard!",
+  "transformer|dc motor|induction": "⚡ **Electrical Machines:**\n\n**Transformer:** Transfers AC power using mutual induction.\n- V1/V2 = N1/N2 = I2/I1\n\n**DC Motor:** Converts electrical energy to mechanical (uses Fleming's Left Hand Rule).\n\n**3-Phase Induction Motor:** Most common industrial motor. Works on rotating magnetic field principle.\n- Slip = (Ns - Nr)/Ns\n\n**DC Generator:** Converts mechanical to electrical (uses Fleming's Right Hand Rule).\n\n💡 **Tip:** Know the construction & working principle for all 5 machines!",
+  "logic gate|boolean|flip flop": "💡 **Digital Electronics:**\n\n**Basic Gates:** AND, OR, NOT\n**Universal Gates:** NAND, NOR (can make any circuit)\n**Special:** XOR, XNOR\n\n**Boolean Laws:**\n- A+0=A, A·1=A\n- A+A'=1, A·A'=0\n- De Morgan's: (A+B)' = A'·B'\n\n**Flip Flops:** SR, JK, D, T — used for memory/storage\n\n💡 **Tip:** NAND and NOR are universal — most important for exams!"
+};
+
+function getSmartReply(question) {
+  const q = question.toLowerCase();
+  for (const [keywords, answer] of Object.entries(KB)) {
+    const keys = keywords.split('|');
+    if (keys.some(k => q.includes(k))) return answer;
+  }
+  // Generic fallback
+  const subjects = ['matrix','circuit','wave','projection','force','array','pointer','integral','derivative','semiconductor','transistor','diode','eigenvalue','friction','centroid','induction','transformer','logic','boolean'];
+  const isEngineering = subjects.some(s => q.includes(s)) || q.includes('what is') || q.includes('explain') || q.includes('define') || q.includes('how') || q.includes('why');
+  if (isEngineering) {
+    return `📚 Great question! This topic is covered in your B.Tech syllabus.\n\nFor detailed notes and explanations on this topic, join **LearnGeeks Premium** on Telegram where we have step-by-step study materials!\n\n👉 t.me/learngeekspremium\n\n💡 **Tip:** Try asking more specific questions like "What is KVL?", "Explain Eigenvalues", or "What is a pointer in C?"`;
+  }
+  return `🎯 I'm your **LearnGeeks Engineering Study Helper!**\n\nI can answer questions about:\n- 📐 Linear Algebra & Calculus\n- ⚡ BEEE (Circuits, Machines)\n- 🔬 Engineering Physics\n- ✏️ Engineering Graphics\n- ⚙️ Engineering Mechanics\n- 💻 Programming in C\n\nTry asking: "What is KVL?", "Explain Eigenvalues", "What is Newton's Rings?"\n\n💡 **Tip:** Be specific for best answers!`;
+}
+
+let isLoading = false;
+
+function addMessage(content, isUser) {
+  const chatMessages = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = `msg ${isUser ? 'msg-user' : 'msg-bot'}`;
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+  // Convert **bold** markdown to <strong>
+  const formatted = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\n/g, '<br>').replace(/```[\s\S]*?```/g, m => `<code style="display:block;background:rgba(0,0,0,0.3);padding:8px;border-radius:6px;margin:6px 0;font-size:12px;font-family:monospace;">${m.replace(/```c?/g,'').replace(/```/g,'')}</code>`);
+  msg.innerHTML = `<div class="msg-bubble">${formatted}</div><div class="msg-time">${time}</div>`;
+  chatMessages.appendChild(msg);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function showTyping() {
+  const chatMessages = document.getElementById('chatMessages');
+  const typing = document.createElement('div');
+  typing.className = 'msg msg-bot';
+  typing.id = 'typingIndicator';
+  typing.innerHTML = `<div class="msg-bubble"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  chatMessages.appendChild(typing);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typingIndicator');
+  if(t) t.remove();
+}
+
+async function sendMessage() {
+  if(isLoading) return;
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  document.getElementById('suggestedQs').style.display = 'none';
+  addMessage(text, true);
+  isLoading = true;
+  document.getElementById('sendBtn').disabled = true;
+  showTyping();
+  // Simulate slight delay for natural feel
+  await new Promise(r => setTimeout(r, 800 + Math.random() * 600));
+  removeTyping();
+  const reply = getSmartReply(text);
+  addMessage(reply, false);
+  isLoading = false;
+  document.getElementById('sendBtn').disabled = false;
+}
+
+function sendSuggested(el) {
+  document.getElementById('chatInput').value = el.textContent;
+  sendMessage();
+}
+
+// ── ACTIVE NAV HIGHLIGHT ──────────────────────
+window.addEventListener('scroll', () => {
+  const sections = ['subjects','ai','jobs','about','contact'];
+  const scrollY = window.scrollY;
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const top = el.offsetTop - 100;
+    const bottom = top + el.offsetHeight;
+    const link = document.querySelector(`.nav-links a[href="#${id}"]`);
+    if(link) {
+      link.style.color = (scrollY >= top && scrollY < bottom) ? 'var(--accent)' : '';
+    }
+  });
+});
+</script>
+</body>
+</html>
